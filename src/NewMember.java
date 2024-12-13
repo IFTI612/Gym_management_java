@@ -1,4 +1,8 @@
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 /*
@@ -12,12 +16,35 @@ import javax.swing.JOptionPane;
  */
 public class NewMember extends javax.swing.JFrame {
 
+    public static List<NewMember> getAllMembers() {
+        List<NewMember> members = new ArrayList<>();
+        members.add(new NewMember(1, "John Doe", "1234567890", "john@example.com", "Male", "Morning", 25, 500.00));
+        members.add(new NewMember(2, "Jane Smith", "0987654321", "jane@example.com", "Female", "Evening", 30, 700.00));
+        return members;
+    }
+
     /**
      * Creates new form NewMember
      */
     public NewMember() {
         initComponents();
+        // Initialize Member ID display
+        jLabel3.setText(String.valueOf(memberIdCounter));
     }
+    
+        private Map<String, String[]> members = new HashMap<>();
+        private int memberIdCounter = 1;
+        
+       private void resetFields() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jComboBox2.setSelectedIndex(0);
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -260,12 +287,40 @@ public class NewMember extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         //reset_Button
+        resetFields();
         setVisible(false);
         new NewMember().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+                // Collect data from fields
+        String memberId = jLabel3.getText();
+        String name = jTextField1.getText();
+        String mobile = jTextField2.getText();
+        String email = jTextField3.getText();
+        String age = jTextField4.getText();
+        String payment = jTextField5.getText();
+        String gender = (String) jComboBox1.getSelectedItem();
+        String gymTime = (String) jComboBox2.getSelectedItem();
+
+        // Validate fields (optional)
+        if (name.isEmpty() || mobile.isEmpty() || email.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all required fields.");
+            return;
+        }
+
+        // Store the data in the Map
+        members.put(memberId, new String[]{name, mobile, email, age, payment, gender, gymTime});
+
+        // Confirm and update Member ID
+        JOptionPane.showMessageDialog(null, "Successfully Saved");
+        memberIdCounter++;
+        jLabel3.setText(String.valueOf(memberIdCounter));
+
+        // Clear fields for new entry
+        resetFields();
+        
         JOptionPane.showMessageDialog(null,"Successfully Saved");
         setVisible(false);
         new NewMember().setVisible(true);
@@ -329,4 +384,61 @@ public class NewMember extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
+
+        private int memberId;
+    private String name;
+    private String phoneNumber;
+    private String email;
+    private String gender;
+    private String gymTime;
+    private int age;
+    private double amount;
+
+    // Constructor
+    public NewMember(int memberId, String name, String phoneNumber, String email, String gender, String gymTime, int age, double amount) {
+        this.memberId = memberId;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.gender = gender;
+        this.gymTime = gymTime;
+        this.age = age;
+        this.amount = amount;
+    }
+
+    public int getMemberId() {
+        return memberId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getGymTime() {
+        return gymTime;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    
+    
+
 }
